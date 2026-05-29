@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七五三フォトご予約</title>
+    <!-- LINE LIFF SDK -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #b5c8bf; color: #333; padding: 0 0 40px 0; }
+        
+        .container { max-width: 500px; margin: 0 auto; background-color: #b5c8bf; }
+        
+        /* タイトルエリア */
+        .header-area { background-color: #b5c8bf; padding: 30px 16px 20px 16px; text-align: center; color: #ffffff; }
+        h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { font-size: 13px; color: #ffffff; opacity: 0.9; }
+        
+        .form-content { padding: 0 16px; }
+        
+        /* 入力欄を囲むカード */
+        .form-group { background: #ffffff; padding: 20px 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+        
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #222; }
+        .sub-label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 6px 0; color: #555; }
+        .required-badge { background-color: #ff4d4f; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+        .optional-badge { background-color: #8c8c8c; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+        
+        .explain-text { font-size: 13px; color: #555; background: #fdfaf6; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #a89f91; margin-bottom: 12px; line-height: 1.5; }
+        .link-area { margin-top: 12px; font-size: 14px; font-weight: 600; line-height: 1.8; }
+        .link-area a { color: #7aa692; text-decoration: underline; display: block; margin-bottom: 4px; }
+        
+        input[type="text"], input[type="tel"], input[type="date"], input[type="time"], textarea { 
+            width: 100%; padding: 14px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 16px; background: #ffffff; color: #333; transition: all 0.2s; -webkit-appearance: none;
+        }
+        input#zipcode { width: 45%; }
+        input[type="time"] { width: 45%; }
+        
+        textarea { resize: vertical; min-height: 70px; font-family: inherit; }
+        input:focus, textarea:focus { border-color: #a89f91; outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(168, 159, 145, 0.1); }
+        input::placeholder, textarea::placeholder { color: #bfbfbf; font-size: 15px; }
+        
+        /* ラジオボタン・チェックボックスの共通スタイル */
+        .choice-group { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+        .choice-label { display: flex; align-items: center; font-weight: normal; font-size: 15px; cursor: pointer; }
+        .choice-label input { width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692; }
+        
+        /* ご祈祷時間の並び調整 */
+        .time-input-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        
+        /* 希望日カード内の時間帯選択用スタイル */
+        .time-selector-group { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #eee; }
+        .time-label { display: flex; align-items: center; font-size: 14px; font-weight: normal; cursor: pointer; color: #555; }
+        .time-label input { width: 18px; height: 18px; margin-right: 8px; accent-color: #a89f91; }
+
+        .btn-area { margin-top: 24px; padding: 0 16px; }
+        button { width: 100%; padding: 16px; background-color: #a89f91; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(168, 159, 145, 0.1); transition: all 0.2s; }
+        button:disabled { background-color: #d9d9d9; color: #8c8c8c; cursor: not-allowed; box-shadow: none; }
+        button:active { background-color: #8c8376; transform: scale(0.99); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-area">
+            <h2>七五三フォト予約</h2>
+            <p class="subtitle">必要事項をご入力の上、送信してください。</p>
+        </div>
+        
+        <div class="form-content">
+            <!-- 個人情報 -->
+            <div class="form-group">
+                <label for="name">お名前<span class="required-badge">必須</span></label>
+                <input type="text" id="name" placeholder="例：山田 太郎">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">お電話番号<span class="required-badge">必須</span></label>
+                <input type="tel" id="phone" placeholder="例：09012345678">
+            </div>
+
+            <!-- ご住所カード -->
+            <div class="form-group">
+                <label>ご住所<span class="required-badge">必須</span></label>
+                
+                <span class="sub-label" style="margin-top: 0;">郵便番号</span>
+                <input type="text" id="zipcode" placeholder="例：123-4567" style="margin-bottom: 12px;">
+                
+                <span class="sub-label">住所</span>
+                <input type="text" id="address" placeholder="例：東京都渋谷区○○1-2-3">
+            </div>
+
+            <!-- お子様情報 -->
+            <div class="form-group">
+                <label for="child1">祈祷されるお子様のお名前、年齢、性別<span class="required-badge">必須</span></label>
+                <textarea id="child1" placeholder="例：山田 ひなた、3歳、女の子"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="child2">祈祷されるお子様のお名前、年齢、性別(二人目以降)<span class="optional-badge">任意</span></label>
+                <textarea id="child2" placeholder="例：山田 れん、5歳、男の子"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="siblings">付き添いご兄弟のお名前、年齢、性別<span class="optional-badge">任意</span></label>
+                <textarea id="siblings" placeholder="例：兄：そうた（7歳）"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="attendees">撮影に参加される方の人数と続柄<span class="optional-badge">任意</span></label>
+                <textarea id="attendees" placeholder="例：大人2人（夫婦）、子供2人（本人、上の子）"></textarea>
+            </div>
+
+            <!-- 神社・祈祷時間 -->
+            <div class="form-group">
+                <label for="shrine">同行撮影の方はお参りされる神社名<span class="optional-badge">任意</span></label>
+                <input type="text" id="shrine" placeholder="例：○○神社">
+            </div>
+
+            <div class="form-group">
+                <label>ご祈祷の時間<span class="optional-badge">任意</span></label>
+                <div class="choice-group">
+                    <label class="choice-label" style="margin-bottom: -4px;">
+                        <input type="radio" name="prayTimeType" id="prayTimeTypeSelect" value="時間指定"> 時間を選択：
+                    </label>
+                    <div class="time-input-wrap" style="padding-left: 32px; margin-bottom: 4px;">
+                        <input type="time" id="prayTimeInput" onfocus="document.getElementById('prayTimeTypeSelect').checked=true;">
+                    </div>
+                    <label class="choice-label">
+                        <input type="radio" name="prayTimeType" value="未定"> 未定
+                    </label>
+                </div>
+            </div>
+
+            <!-- 撮影希望日① -->
+            <div class="form-group">
+                <label for="date1">撮影希望日①<span class="required-badge">必須</span></label>
+                <input type="date" id="date1">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time1" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time1" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time1" value="相談したい"> 相談したい</label>
+                </div>
+            </div>
+
+            <!-- 撮影希望日② -->
+            <div class="form-group">
+                <label for="date2">撮影希望日②<span class="required-badge">必須</span></label>
+                <input type="date" id="date2">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time2" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time2" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time2" value="相談したい"> 相談したい</label>
+                </div>
+            </div>
+
+            <!-- 撮影希望日③ -->
+            <div class="form-group">
+                <label for="date3">撮影希望日③<span class="optional-badge">任意</span></label>
+                <input type="date" id="date3">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time3" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time3" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time3" value="相談したい"> 相談したい</label>
+                </div>
+            </div>
+
+            <!-- 希望プラン -->
+            <div class="form-group">
+                <label class="required">希望プラン<span class="required-badge">必須</span></label>
+                <div class="choice-group">
+                    <label class="choice-label"><input type="radio" name="plan" value="お参り同行プラン ¥51,700"> お参り同行プラン ¥51,700</label>
+                    <label class="choice-label"><input type="radio" name="plan" value="スタジオ3歳男の子プラン ¥58,300"> スタジオ3歳男の子プラン ¥58,300</label>
+                    <label class="choice-label"><input type="radio" name="plan" value="スタジオ3歳女の子プラン ¥61,600"> スタジオ3歳女の子プラン ¥61,600</label>
+                    <label class="choice-label"><input type="radio" name="plan" value="スタジオ5歳男の子プラン ¥60,500"> スタジオ5歳男の子プラン ¥60,500</label>
+                    <label class="choice-label"><input type="radio" name="plan" value="スタジオ7歳女の子プラン ¥66,000"> スタジオ7歳女の子プラン ¥66,000</label>
+                </div>
+            </div>
+
+            <!-- 撮影オプション（複数選択可のチェックボックス方式） -->
+            <div class="form-group">
+                <label>撮影オプション<span class="optional-badge">任意</span></label>
+                <div class="choice-group">
+                    <label class="choice-label"><input type="checkbox" name="option" value="生花撮影"> 生花撮影</label>
+                    <label class="choice-label"><input type="checkbox" name="option" value="お支度風景の撮影"> お支度風景の撮影</label>
+                    <label class="choice-label"><input type="checkbox" name="option" value="検討中"> 検討中</label>
+                </div>
+            </div>
+
+            <!-- 和装レンタル(必須) -->
+            <div class="form-group">
+                <label>和装レンタル<span class="required-badge">必須</span></label>
+                <div class="choice-group">
+                    <label class="choice-label"><input type="radio" name="rental" value="あり"> あり</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="なし"> なし</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="検討中"> 検討中</label>
+                </div>
+            </div>
+
+            <!-- お支度のご希望(必須) -->
+            <div class="form-group">
+                <label>お支度のご希望<span class="required-badge">必須</span></label>
+                <div class="explain-text">
+                    ヘアメイクさんのスケジュール確認が必要になりますので、追って希望日の空き状況をお知らせ致します。
+                </div>
+                <div class="choice-group">
+                    <label class="choice-label"><input type="radio" name="dressing" value="あり"> あり</label>
+                    <label class="choice-label"><input type="radio" name="dressing" value="なし"> なし</label>
+                    <label class="choice-label"><input type="radio" name="dressing" value="検討中"> 検討中</label>
+                    <label class="choice-label"><input type="radio" name="dressing" value="スタジオプラン内のお支度を利用"> スタジオプラン内のお支度を利用</label>
+                </div>
+                
+                <div class="explain-text" style="margin-top: 16px; margin-bottom: 4px; background: #fdfdfd; border-left-color: #7aa692;">
+                    衣装、お支度の料金表は以下リンクをご確認ください。大変恐縮ですが、交通費以外のお見積りにつきましては料金表をご参照くださいますようお願い申し上げます。
+                    <div class="link-area">
+                        <a href="https://suzu-photo.com/wp-content/uploads/2026/04/%E6%96%99%E9%87%91%E8%A1%A82026-scaled.jpg" target="_blank">＞＞お支度料金表＜＜</a>
+                        <a href="https://suzu-photo.com/wp-content/uploads/2025/04/%E4%B8%83%E4%BA%94%E4%B8%89%E3%83%BB%E7%94%A3%E7%9D%80%E3%83%BB%E8%A8%AA%E5%95%8F%E7%9D%80_%E6%96%99%E9%87%91%E8%A1%A8-scaled.jpg" target="_blank">＞＞衣装レンタル料金表＜＜</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問相談（七五三のプレースホルダーに変更） -->
+            <div class="form-group">
+                <label for="questions">ご質問、ご相談<span class="optional-badge">任意</span></label>
+                <textarea id="questions" placeholder="例：持ち込みの着物があるのですが、小物が揃っているか不安です。"></textarea>
+            </div>
+        </div>
+
+        <div class="btn-area">
+            <button id="submitBtn" onclick="submitForm()" disabled>読み込み中...</button>
+        </div>
+    </div>
+
+    <script>
+        // 七五三専用のLIFF IDを設定済み
+        const MY_LIFF_ID = "2006407169-5SP3NKYi"; 
+
+        // 初期化処理
+        document.addEventListener("DOMContentLoaded", function() {
+            try {
+                liff.init({ liffId: MY_LIFF_ID })
+                    .then(() => {
+                        if (!liff.isLoggedIn()) {
+                            liff.login();
+                        } else {
+                            const btn = document.getElementById('submitBtn');
+                            btn.disabled = false;
+                            btn.innerText = '送信する';
+                        }
+                    })
+                    .catch((err) => { 
+                        alert('LINE通信エラー: ' + err.message);
+                    });
+            } catch (e) {
+                alert('プログラム実行エラー: ' + e.message);
+            }
+        });
+
+        // 送信処理
+        function submitForm() {
+            const nameInput = document.getElementById('name').value.trim();
+            const name = nameInput ? nameInput + ' 様' : '';
+            
+            const phone = document.getElementById('phone').value.trim();
+            const zipcode = document.getElementById('zipcode').value.trim() || '未記入';
+            const address = document.getElementById('address').value.trim();
+            
+            // お子様情報
+            const child1 = document.getElementById('child1').value.trim();
+            const child2 = document.getElementById('child2').value.trim() || 'なし';
+            const siblings = document.getElementById('siblings').value.trim() || 'なし';
+            const attendees = document.getElementById('attendees').value.trim() || '未記入';
+            
+            // 神社名
+            const shrine = document.getElementById('shrine').value.trim() || '未記入';
+            
+            // ご祈祷時間の取得
+            const prayTimeTypeRadio = document.querySelector('input[name="prayTimeType"]:checked');
+            let prayTimeText = '未記入';
+            if (prayTimeTypeRadio) {
+                if (prayTimeTypeRadio.value === '時間指定') {
+                    const timeVal = document.getElementById('prayTimeInput').value;
+                    prayTimeText = timeVal ? timeVal : '時間未入力';
+                } else {
+                    prayTimeText = prayTimeTypeRadio.value;
+                }
+            }
+            
+            // 撮影希望日時
+            const date1 = document.getElementById('date1').value;
+            const date2 = document.getElementById('date2').value;
+            const date3 = document.getElementById('date3').value;
+            
+            const time1Radio = document.querySelector('input[name="time1"]:checked');
+            const time1 = time1Radio ? time1Radio.value : '';
+            
+            const time2Radio = document.querySelector('input[name="time2"]:checked');
+            const time2 = time2Radio ? time2Radio.value : '';
+            
+            const time3Radio = document.querySelector('input[name="time3"]:checked');
+            const time3 = time3Radio ? time3Radio.value : '未選択';
+            
+            // 希望プラン
+            const planRadio = document.querySelector('input[name="plan"]:checked');
+            const plan = planRadio ? planRadio.value : '';
+
+            // 撮影オプション（チェックボックス）
+            const optionBoxes = document.querySelectorAll('input[name="option"]:checked');
+            const options = [];
+            optionBoxes.forEach((cb) => { options.push(cb.value); });
+            const optionText = options.length > 0 ? options.map(opt => `・${opt}`).join('\n') : 'なし';
+
+            // 和装レンタル
+            const rentalRadio = document.querySelector('input[name="rental"]:checked');
+            const rental = rentalRadio ? rentalRadio.value : '';
+
+            // お支度のご希望
+            const dressingRadio = document.querySelector('input[name="dressing"]:checked');
+            const dressing = dressingRadio ? dressingRadio.value : '';
+
+            const questions = document.getElementById('questions').value.trim() || 'なし';
+
+            // 必須入力チェック（お支度、和装レンタル、お子様1人目も必須に含めています）
+            if (!nameInput || !phone || !address || !child1 || !date1 || !time1 || !date2 || !time2 || !plan || !rental || !dressing) {
+                alert('必須項目(*)をすべて入力し、撮影希望日時やレンタル・お支度の選択も完了させてください。');
+                return;
+            }
+
+            const dateTimeText1 = `${date1} (${time1})`;
+            const dateTimeText2 = `${date2} (${time2})`;
+            const dateTimeText3 = date3 ? `${date3} (${time3})` : 'なし';
+
+            // 送信メッセージの構築
+            const messageText = `【予約申込】七五三
+■お名前：${name}
+■お電話番号：${phone}
+■郵便番号：${zipcode}
+■ご住所：${address}
+■祈祷されるお子様(1人目)：
+${child1}
+■祈祷されるお子様(2人目以降)：
+${child2}
+■付き添いご兄弟のお名前、年齢、性別：
+${siblings}
+■撮影に参加される方の人数と続柄：
+${attendees}
+■お参りされる神社名：${shrine}
+■ご祈祷の時間：${prayTimeText}
+■撮影希望日①：${dateTimeText1}
+■撮影希望日②：${dateTimeText2}
+■撮影希望日③：${dateTimeText3}
+■希望プラン：${plan}
+■撮影オプション：
+${optionText}
+■和装レンタル：${rental}
+■お支度のご希望：${dressing}
+■ご質問、ご相談：
+${questions}
+
+上記の内容で予約を送信しました。確定までしばらくお待ちください。`;
+
+            liff.sendMessages([
+                {
+                    type: 'text',
+                    text: messageText
+                }
+            ]).then(() => {
+                liff.closeWindow();
+            }).catch((err) => {
+                alert('送信エラーが発生しました。');
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
