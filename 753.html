@@ -39,7 +39,7 @@
         .link-area { margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.8; }
         .link-area a { color: #7aa692; text-decoration: underline; display: block; margin-bottom: 4px; }
         
-        .alert-red-text { color: #ff4d4f; font-size: 13px; font-weight: bold; margin: 6px 0 10px 0; line-height: 1.4; }
+        .alert-red-text { color: #ff4d4f; font-size: 11px; font-weight: bold; margin: 4px 0 12px 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], select, textarea { 
             width: 100%; padding: 14px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 16px; background: #ffffff; color: #333; transition: all 0.2s; -webkit-appearance: none;
@@ -210,7 +210,14 @@
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
-                        <input type="text" id="rentChild1Size" placeholder="例：16.5cm">
+                        <select id="rentChild1Size">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="13～14cm">13～14cm</option>
+                            <option value="15～16cm">15～16cm</option>
+                            <option value="17～18cm">17～18cm</option>
+                            <option value="19～20cm">19～20cm</option>
+                            <option value="21～22cm">21～22cm</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">安心パック ¥1,100</span>
@@ -227,7 +234,14 @@
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
-                        <input type="text" id="rentChild2Size" placeholder="例：14.0cm">
+                        <select id="rentChild2Size">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="13～14cm">13～14cm</option>
+                            <option value="15～16cm">15～16cm</option>
+                            <option value="17～18cm">17～18cm</option>
+                            <option value="19～20cm">19～20cm</option>
+                            <option value="21～22cm">21～22cm</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">安心パック ¥1,100</span>
@@ -244,7 +258,15 @@
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
-                        <input type="text" id="rentChild3Size" placeholder="例：なし">
+                        <select id="rentChild3Size">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="なし">なし</option>
+                            <option value="13～14cm">13～14cm</option>
+                            <option value="15～16cm">15～16cm</option>
+                            <option value="17～18cm">17～18cm</option>
+                            <option value="19～20cm">19～20cm</option>
+                            <option value="21～22cm">21～22cm</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">安心パック ¥1,100</span>
@@ -261,7 +283,18 @@
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
-                        <input type="text" id="rentMomSize" placeholder="例：23.5cm">
+                        <select id="rentMomSize">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="22.0cm">22.0cm</option>
+                            <option value="22.5cm">22.5cm</option>
+                            <option value="23.0cm">23.0cm</option>
+                            <option value="23.5cm">23.5cm</option>
+                            <option value="24.0cm">24.0cm</option>
+                            <option value="24.5cm">24.5cm</option>
+                            <option value="25.0cm">25.0cm</option>
+                            <option value="25.5cm">25.5cm</option>
+                            <option value="26.0cm">26.0cm</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">服のサイズ</span>
@@ -281,8 +314,31 @@
                         </select>
                     </div>
                     <div class="detail-field">
-                        <span class="sub-label">ご年齢</span>
-                        <input type="text" id="rentMomAge" placeholder="例：30代前半">
+                        <span class="sub-label">ご年代</span>
+                        <select id="rentMomAge">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="20代前半">20代前半</option>
+                            <option value="20代後半">20代後半</option>
+                            <option value="30代前半">30代前半</option>
+                            <option value="30代後半">30代後半</option>
+                            <option value="40代前半">40代前半</option>
+                            <option value="40代後半">40代後半</option>
+                            <option value="50代前半">50代前半</option>
+                            <option value="50代後半">50代後半</option>
+                            <option value="60代前半">60代前半</option>
+                            <option value="60代後半">60代後半</option>
+                            <option value="70代前半">70代前半</option>
+                            <option value="70代後半">70代後半</option>
+                            <option value="80代前半">80代前半</option>
+                            <option value="80代後半">80代後半</option>
+                        </select>
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">安心パック ¥1,100</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentMomPack" value="あり"> あり</label>
+                            <label class="inline-label"><input type="radio" name="rentMomPack" value="なし"> なし</label>
+                        </div>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">帯小物コーディネート</span>
@@ -322,8 +378,31 @@
                         </select>
                     </div>
                     <div class="detail-field">
-                        <span class="sub-label">ご年齢</span>
-                        <input type="text" id="rentDadAge" placeholder="例：30代中盤">
+                        <span class="sub-label">ご年代</span>
+                        <select id="rentDadAge">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="20代前半">20代前半</option>
+                            <option value="20代後半">20代後半</option>
+                            <option value="30代前半">30代前半</option>
+                            <option value="30代後半">30代後半</option>
+                            <option value="40代前半">40代前半</option>
+                            <option value="40代後半">40代後半</option>
+                            <option value="50代前半">50代前半</option>
+                            <option value="50代後半">50代後半</option>
+                            <option value="60代前半">60代前半</option>
+                            <option value="60代後半">60代後半</option>
+                            <option value="70代前半">70代前半</option>
+                            <option value="70代後半">70代後半</option>
+                            <option value="80代前半">80代前半</option>
+                            <option value="80代後半">80代後半</option>
+                        </select>
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">安心パック ¥1,100</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentDadPack" value="あり"> あり</label>
+                            <label class="inline-label"><input type="radio" name="rentDadPack" value="なし"> なし</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -466,38 +545,42 @@
             let rentalDetailText = '';
             if (rental === 'あり') {
                 const c1No = document.getElementById('rentChild1No').value.trim() || '未記入';
-                const c1Size = document.getElementById('rentChild1Size').value.trim() || '未記入';
+                const c1Size = document.getElementById('rentChild1Size').value;
                 const c1PackRadio = document.querySelector('input[name="rentChild1Pack"]:checked');
                 const c1Pack = c1PackRadio ? c1PackRadio.value : '未選択';
 
                 const c2No = document.getElementById('rentChild2No').value.trim() || '未記入';
-                const c2Size = document.getElementById('rentChild2Size').value.trim() || '未記入';
+                const c2Size = document.getElementById('rentChild2Size').value;
                 const c2PackRadio = document.querySelector('input[name="rentChild2Pack"]:checked');
                 const c2Pack = c2PackRadio ? c2PackRadio.value : '未選択';
 
                 const c3No = document.getElementById('rentChild3No').value.trim() || '未記入';
-                const c3Size = document.getElementById('rentChild3Size').value.trim() || '未記入';
+                const c3Size = document.getElementById('rentChild3Size').value;
                 const c3PackRadio = document.querySelector('input[name="rentChild3Pack"]:checked');
                 const c3Pack = c3PackRadio ? c3PackRadio.value : '未選択';
 
                 const mNo = document.getElementById('rentMomNo').value.trim() || '未記入';
-                const mSize = document.getElementById('rentMomSize').value.trim() || '未記入';
+                const mSize = document.getElementById('rentMomSize').value;
                 const mCloth = document.getElementById('rentMomCloth').value;
-                const mAge = document.getElementById('rentMomAge').value.trim() || '未記入';
+                const mAge = document.getElementById('rentMomAge').value;
+                const mPackRadio = document.querySelector('input[name="rentMomPack"]:checked');
+                const mPack = mPackRadio ? mPackRadio.value : '未選択';
                 const mCoordRadio = document.querySelector('input[name="rentMomCoord"]:checked');
                 const mCoord = mCoordRadio ? mCoordRadio.value : '未選択';
 
                 const dNo = document.getElementById('rentDadNo').value.trim() || '未記入';
                 const dSize = document.getElementById('rentDadSize').value.trim() || '未記入';
                 const dCloth = document.getElementById('rentDadCloth').value;
-                const dAge = document.getElementById('rentDadAge').value.trim() || '未記入';
+                const dAge = document.getElementById('rentDadAge').value;
+                const dPackRadio = document.querySelector('input[name="rentDadPack"]:checked');
+                const dPack = dPackRadio ? dPackRadio.value : '未選択';
 
                 rentalDetailText = `\n【レンタル内訳】
 ・お子様①：商品番号:${c1No} / 足:${c1Size} / 安心P:${c1Pack}
 ・お子様②：商品番号:${c2No} / 足:${c2Size} / 安心P:${c2Pack}
 ・お子様③：商品番号:${c3No} / 足:${c3Size} / 安心P:${c3Pack}
-・ママ：商品番号:${mNo} / 足:${mSize} / 服:${mCloth} / 年齢:${mAge} / コーデ:${mCoord}
-・パパ：商品番号:${dNo} / 足:${dSize} / 服:${dCloth} / 年齢:${dAge}
+・ママ：商品番号:${mNo} / 足:${mSize} / 服:${mCloth} / 年代:${mAge} / 安心P:${mPack} / コーデ:${mCoord}
+・パパ：商品番号:${dNo} / 足:${dSize} / 服:${dCloth} / 年代:${dAge} / 安心P:${dPack}
 ※衣装のスクリーンショットは別途チャット送信`;
             }
 
