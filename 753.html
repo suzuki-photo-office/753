@@ -53,13 +53,19 @@
         .choice-label { display: flex; align-items: center; font-weight: normal; font-size: 15px; cursor: pointer; }
         .choice-label input { width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692; }
         
+        .inline-choice { display: flex; gap: 20px; margin-top: 6px; margin-bottom: 6px; }
+        .inline-label { display: flex; align-items: center; font-size: 14px; font-weight: normal; cursor: pointer; }
+        .inline-label input { width: 18px; height: 18px; margin-right: 8px; accent-color: #a89f91; }
+
         .time-input-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         
-        /* 条件付きお支度詳細入力欄 */
-        .dressing-detail-area { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed #eee; animation: fadeIn 0.3s ease-in-out; }
-        .dressing-detail-title { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 12px; }
-        .dressing-field { margin-bottom: 12px; }
-        .dressing-field:last-child { margin-bottom: 0; }
+        /* 条件付き詳細入力欄（共通アニメーション） */
+        .conditional-detail-area { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed #eee; animation: fadeIn 0.3s ease-in-out; }
+        .detail-block-title { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 12px; }
+        .sub-section-title { font-size: 14px; font-weight: 700; color: #7aa692; margin-top: 16px; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px dashed #7aa692; }
+        .sub-section-title:first-of-type { margin-top: 0; }
+        .detail-field { margin-bottom: 12px; }
+        .detail-field:last-child { margin-bottom: 0; }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-5px); }
@@ -174,7 +180,7 @@
 
             <!-- 【グループ5】レンタル・お支度 -->
             <div class="form-group" id="group_rental">
-                <label>衣装レンタルのご希望（必須）</label>
+                <label>衣装レンタルのご希望<span class="required-badge">必須</span></label>
                 <div class="explain-text">
                     キモノカタログオンラインレンタルサービス。試着不可。<br>
                     【ID】1234【PW】001でログインしてカタログをご覧いただけます。
@@ -183,15 +189,144 @@
                     </div>
                 </div>
                 <div class="choice-group">
-                    <label class="choice-label"><input type="radio" name="rental" value="あり"> あり</label>
-                    <label class="choice-label"><input type="radio" name="rental" value="なし"> なし</label>
-                    <label class="choice-label"><input type="radio" name="rental" value="検討中"> 検討中</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="あり" onclick="toggleRentalDetail(true)"> あり</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="なし" onclick="toggleRentalDetail(false)"> なし</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="検討中" onclick="toggleRentalDetail(false)"> 検討中</label>
                 </div>
                 <div class="error-message">衣装レンタルのご希望を選択してください。</div>
+
+                <!-- 「あり」選択時のみ表示される衣装詳細入力エリア -->
+                <div class="conditional-detail-area" id="rentalDetailWrap">
+                    <p class="detail-block-title">●ご希望の衣装詳細をご記入ください</p>
+                    
+                    <div class="sub-section-title">お子様①</div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装番号</span>
+                        <input type="text" id="rentChild1No" placeholder="例：3-012">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装の画像（特徴や色、スクショ等があれば）</span>
+                        <input type="text" id="rentChild1Img" placeholder="例：青色の古典柄、兜の絵、URLなど">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">足のサイズ</span>
+                        <input type="text" id="rentChild1Size" placeholder="例：16.5cm">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">安心パック ¥1,100</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentChild1Pack" value="あり"> あり</label>
+                            <label class="inline-label"><input type="radio" name="rentChild1Pack" value="なし"> なし</label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section-title">お子様②</div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装番号</span>
+                        <input type="text" id="rentChild2No" placeholder="例：3-015">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装の画像（特徴や色など）</span>
+                        <input type="text" id="rentChild2Img" placeholder="例：赤色、被布セット">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">足のサイズ</span>
+                        <input type="text" id="rentChild2Size" placeholder="例：14.0cm">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">安心パック ¥1,100</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentChild2Pack" value="あり"> あり</label>
+                            <label class="inline-label"><input type="radio" name="rentChild2Pack" value="なし"> なし</label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section-title">お子様③</div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装番号</span>
+                        <input type="text" id="rentChild3No" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装の画像（特徴や色など）</span>
+                        <input type="text" id="rentChild3Img" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">足のサイズ</span>
+                        <input type="text" id="rentChild3Size" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">安心パック ¥1,100</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentChild3Pack" value="あり"> あり</label>
+                            <label class="inline-label"><input type="radio" name="rentChild3Pack" value="なし"> なし</label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section-title">ママ</div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装番号</span>
+                        <input type="text" id="rentMomNo" placeholder="例：M-201">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装の画像（特徴や色など）</span>
+                        <input type="text" id="rentMomImg" placeholder="例：淡いピンク、訪問着">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">足のサイズ</span>
+                        <input type="text" id="rentMomSize" placeholder="例：23.5cm">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">服のサイズ</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentMomCloth" value="9～13号"> 9～13号</label>
+                            <label class="inline-label"><input type="radio" name="rentMomCloth" value="その他"> その他</label>
+                        </div>
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">ご年齢</span>
+                        <input type="text" id="rentMomAge" placeholder="例：30代前半">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">帯小物コーディネート</span>
+                        <div class="choice-group">
+                            <label class="choice-label"><input type="radio" name="rentMomCoord" value="可愛い感じ"> 可愛い感じ</label>
+                            <label class="choice-label"><input type="radio" name="rentMomCoord" value="華やかな感じ"> 華やかな感じ</label>
+                            <label class="choice-label"><input type="radio" name="rentMomCoord" value="かっこいい感じ"> かっこいい感じ</label>
+                            <label class="choice-label"><input type="radio" name="rentMomCoord" value="上品な感じ"> 上品な感じ</label>
+                            <label class="choice-label"><input type="radio" name="rentMomCoord" value="お任せ"> お任せ</label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section-title">パパ</div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装番号</span>
+                        <input type="text" id="rentDadNo" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">衣装の画像（特徴や色など）</span>
+                        <input type="text" id="rentDadImg" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">足のサイズ</span>
+                        <input type="text" id="rentDadSize" placeholder="例：なし">
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">服のサイズ</span>
+                        <div class="inline-choice">
+                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="Mサイズ"> Mサイズ</label>
+                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="Lサイズ"> Lサイズ</label>
+                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="その他"> その他/なし</label>
+                        </div>
+                    </div>
+                    <div class="detail-field">
+                        <span class="sub-label">ご年齢</span>
+                        <input type="text" id="rentDadAge" placeholder="例：30代中盤">
+                    </div>
+                </div>
             </div>
 
             <div class="form-group" id="group_dressing">
-                <label>大人、子供のお支度（ヘアセット、着付けなど）のご希望（必須）</label>
+                <label>大人、子供のお支度（ヘアセット、着付けなど）のご希望<span class="required-badge">必須</span></label>
                 <div class="explain-text">
                     ヘアメイクさんのスケジュール確認が必要になりますので、追って希望日の空き状況をお知らせ致します。
                     <div class="link-area">
@@ -206,26 +341,26 @@
                 </div>
                 <div class="error-message">お支度のご希望を選択してください。</div>
 
-                <!-- 「あり」選択時のみ表示される詳細入力エリア -->
-                <div class="dressing-detail-area" id="dressingDetailWrap">
-                    <p class="dressing-detail-title">●ご希望のお支度内容をご記入ください</p>
-                    <div class="dressing-field">
+                <!-- 「あり」選択時のみ表示されるお支度詳細入力エリア -->
+                <div class="conditional-detail-area" id="dressingDetailWrap">
+                    <p class="detail-block-title">●ご希望のお支度内容をご記入ください</p>
+                    <div class="detail-field">
                         <span class="sub-label">お子様①</span>
                         <input type="text" id="dressingChild1" placeholder="例：5歳男の子 袴着付け・ヘアセット">
                     </div>
-                    <div class="dressing-field">
+                    <div class="detail-field">
                         <span class="sub-label">お子様②</span>
                         <input type="text" id="dressingChild2" placeholder="例：3歳女の子 被布着付け・ヘアメイク">
                     </div>
-                    <div class="dressing-field">
+                    <div class="detail-field">
                         <span class="sub-label">お子様③</span>
                         <input type="text" id="dressingChild3" placeholder="例：なし">
                     </div>
-                    <div class="dressing-field">
+                    <div class="detail-field">
                         <span class="sub-label">ママ</span>
                         <input type="text" id="dressingMom" placeholder="例：訪問着付け・ヘアセット">
                     </div>
-                    <div class="dressing-field">
+                    <div class="detail-field">
                         <span class="sub-label">パパ</span>
                         <input type="text" id="dressingDad" placeholder="例：なし">
                     </div>
@@ -262,10 +397,14 @@
             } catch (e) { alert('プログラム実行エラー: ' + e.message); }
         });
 
+        // 衣装レンタル詳細の表示・非表示切り替え
+        function toggleRentalDetail(show) {
+            document.getElementById('rentalDetailWrap').style.display = show ? 'block' : 'none';
+        }
+
         // お支度詳細の表示・非表示切り替え
         function toggleDressingDetail(show) {
-            const wrap = document.getElementById('dressingDetailWrap');
-            wrap.style.display = show ? 'block' : 'none';
+            document.getElementById('dressingDetailWrap').style.display = show ? 'block' : 'none';
         }
 
         function submitForm() {
@@ -316,16 +455,60 @@
                 } else { prayTimeText = prayTimeTypeRadio.value; }
             }
 
-            // レンタルとお支度
+            // レンタル情報取得
             const rentalRadio = document.querySelector('input[name="rental"]:checked');
             const rental = rentalRadio ? rentalRadio.value : '';
             if (!rental) { document.getElementById('group_rental').classList.add('has-error'); hasError = true; }
 
+            let rentalDetailText = '';
+            if (rental === 'あり') {
+                const c1No = document.getElementById('rentChild1No').value.trim() || '未記入';
+                const c1Img = document.getElementById('rentChild1Img').value.trim() || '未記入';
+                const c1Size = document.getElementById('rentChild1Size').value.trim() || '未記入';
+                const c1PackRadio = document.querySelector('input[name="rentChild1Pack"]:checked');
+                const c1Pack = c1PackRadio ? c1PackRadio.value : '未選択';
+
+                const c2No = document.getElementById('rentChild2No').value.trim() || '未記入';
+                const c2Img = document.getElementById('rentChild2Img').value.trim() || '未記入';
+                const c2Size = document.getElementById('rentChild2Size').value.trim() || '未記入';
+                const c2PackRadio = document.querySelector('input[name="rentChild2Pack"]:checked');
+                const c2Pack = c2PackRadio ? c2PackRadio.value : '未選択';
+
+                const c3No = document.getElementById('rentChild3No').value.trim() || '未記入';
+                const c3Img = document.getElementById('rentChild3Img').value.trim() || '未記入';
+                const c3Size = document.getElementById('rentChild3Size').value.trim() || '未記入';
+                const c3PackRadio = document.querySelector('input[name="rentChild3Pack"]:checked');
+                const c3Pack = c3PackRadio ? c3PackRadio.value : '未選択';
+
+                const mNo = document.getElementById('rentMomNo').value.trim() || '未記入';
+                const mImg = document.getElementById('rentMomImg').value.trim() || '未記入';
+                const mSize = document.getElementById('rentMomSize').value.trim() || '未記入';
+                const mClothRadio = document.querySelector('input[name="rentMomCloth"]:checked');
+                const mCloth = mClothRadio ? mClothRadio.value : '未選択';
+                const mAge = document.getElementById('rentMomAge').value.trim() || '未記入';
+                const mCoordRadio = document.querySelector('input[name="rentMomCoord"]:checked');
+                const mCoord = mCoordRadio ? mCoordRadio.value : '未選択';
+
+                const dNo = document.getElementById('rentDadNo').value.trim() || '未記入';
+                const dImg = document.getElementById('rentDadImg').value.trim() || '未記入';
+                const dSize = document.getElementById('rentDadSize').value.trim() || '未記入';
+                const dClothRadio = document.querySelector('input[name="rentDadCloth"]:checked');
+                const dCloth = dClothRadio ? dClothRadio.value : '未選択';
+                const dAge = document.getElementById('rentDadAge').value.trim() || '未記入';
+
+                rentalDetailText = `\n【レンタル内訳】
+・お子様①：番号:${c1No} / 画像:${c1Img} / 足:${c1Size} / 安心P:${c1Pack}
+・お子様②：番号:${c2No} / 画像:${c2Img} / 足:${c2Size} / 安心P:${c2Pack}
+・お子様③：番号:${c3No} / 画像:${c3Img} / 足:${c3Size} / 安心P:${c3Pack}
+・ママ：番号:${mNo} / 画像:${mImg} / 足:${mSize} / 服:${mCloth} / 年齢:${mAge} / コーデ:${mCoord}
+・パパ：番号:${dNo} / 画像:${dImg} / 足:${dSize} / 服:${dCloth} / 年齢:${dAge}`;
+            }
+
+            // お支度情報取得
             const dressingRadio = document.querySelector('input[name="dressing"]:checked');
             const dressing = dressingRadio ? dressingRadio.value : '';
             if (!dressing) { document.getElementById('group_dressing').classList.add('has-error'); hasError = true; }
 
-            // お支度詳細のテキスト構築
             let dressingDetailText = '';
             if (dressing === 'あり') {
                 const dc1 = document.getElementById('dressingChild1').value.trim() || '未記入';
@@ -333,7 +516,7 @@
                 const dc3 = document.getElementById('dressingChild3').value.trim() || '未記入';
                 const dm = document.getElementById('dressingMom').value.trim() || '未記入';
                 const dd = document.getElementById('dressingDad').value.trim() || '未記入';
-                dressingDetailText = `\n  ・お子様①：${dc1}\n  ・お子様②：${dc2}\n  ・お子様③：${dc3}\n  ・ママ：${dm}\n  ・パパ：${dd}`;
+                dressingDetailText = `\n【お支度内訳】\n  ・お子様①：${dc1}\n  ・お子様②：${dc2}\n  ・お子様③：${dc3}\n  ・ママ：${dm}\n  ・パパ：${dd}`;
             }
 
             const questions = document.getElementById('questions').value.trim() || 'なし';
@@ -367,7 +550,7 @@ ${attendees}
 ■お参りされる神社名：${shrine}
 ■ご祈祷の時間：${prayTimeText}
 
-■衣装レンタルのご希望：${rental}
+■衣装レンタルのご希望：${rental}${rentalDetailText}
 ■お支度のご希望：${dressing}${dressingDetailText}
 ■ご質問、ご相談など：
 ${questions}
