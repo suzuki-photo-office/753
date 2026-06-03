@@ -39,14 +39,17 @@
         .link-area { margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.8; }
         .link-area a { color: #7aa692; text-decoration: underline; display: block; margin-bottom: 4px; }
         
-        input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], textarea { 
+        .alert-red-text { color: #ff4d4f; font-size: 13px; font-weight: bold; margin: 6px 0 10px 0; line-height: 1.4; }
+        
+        input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], select, textarea { 
             width: 100%; padding: 14px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 16px; background: #ffffff; color: #333; transition: all 0.2s; -webkit-appearance: none;
         }
         input#zipcode { width: 45%; }
         input[type="time"] { width: 45%; }
+        select { background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555555'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 14px center; background-size: 20px; padding-right: 40px; }
         
         textarea { resize: vertical; min-height: 80px; font-family: inherit; }
-        input:focus, textarea:focus { border-color: #a89f91; outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(168, 159, 145, 0.1); }
+        input:focus, select:focus, textarea:focus { border-color: #a89f91; outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(168, 159, 145, 0.1); }
         input::placeholder, textarea::placeholder { color: #bfbfbf; font-size: 15px; }
         
         .choice-group { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
@@ -198,15 +201,12 @@
                 <!-- 「あり」選択時のみ表示される衣装詳細入力エリア -->
                 <div class="conditional-detail-area" id="rentalDetailWrap">
                     <p class="detail-block-title">●ご希望の衣装詳細をご記入ください</p>
+                    <p class="alert-red-text">※間違い防止のため衣装のスクリーンショットをチャットで送信してください。</p>
                     
                     <div class="sub-section-title">お子様①</div>
                     <div class="detail-field">
-                        <span class="sub-label">衣装番号</span>
-                        <input type="text" id="rentChild1No" placeholder="例：3-012">
-                    </div>
-                    <div class="detail-field">
-                        <span class="sub-label">衣装の画像（特徴や色、スクショ等があれば）</span>
-                        <input type="text" id="rentChild1Img" placeholder="例：青色の古典柄、兜の絵、URLなど">
+                        <span class="sub-label">衣装の商品番号</span>
+                        <input type="text" id="rentChild1No" placeholder="例：KC000AP1111111">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
@@ -222,12 +222,8 @@
 
                     <div class="sub-section-title">お子様②</div>
                     <div class="detail-field">
-                        <span class="sub-label">衣装番号</span>
-                        <input type="text" id="rentChild2No" placeholder="例：3-015">
-                    </div>
-                    <div class="detail-field">
-                        <span class="sub-label">衣装の画像（特徴や色など）</span>
-                        <input type="text" id="rentChild2Img" placeholder="例：赤色、被布セット">
+                        <span class="sub-label">衣装の商品番号</span>
+                        <input type="text" id="rentChild2No" placeholder="例：KC000AP1111111">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
@@ -243,12 +239,8 @@
 
                     <div class="sub-section-title">お子様③</div>
                     <div class="detail-field">
-                        <span class="sub-label">衣装番号</span>
-                        <input type="text" id="rentChild3No" placeholder="例：なし">
-                    </div>
-                    <div class="detail-field">
-                        <span class="sub-label">衣装の画像（特徴や色など）</span>
-                        <input type="text" id="rentChild3Img" placeholder="例：なし">
+                        <span class="sub-label">衣装の商品番号</span>
+                        <input type="text" id="rentChild3No" placeholder="例：KC000AP1111111">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
@@ -264,12 +256,8 @@
 
                     <div class="sub-section-title">ママ</div>
                     <div class="detail-field">
-                        <span class="sub-label">衣装番号</span>
-                        <input type="text" id="rentMomNo" placeholder="例：M-201">
-                    </div>
-                    <div class="detail-field">
-                        <span class="sub-label">衣装の画像（特徴や色など）</span>
-                        <input type="text" id="rentMomImg" placeholder="例：淡いピンク、訪問着">
+                        <span class="sub-label">衣装の商品番号</span>
+                        <input type="text" id="rentMomNo" placeholder="例：KC000AP1111111">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
@@ -277,10 +265,20 @@
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">服のサイズ</span>
-                        <div class="inline-choice">
-                            <label class="inline-label"><input type="radio" name="rentMomCloth" value="9～13号"> 9～13号</label>
-                            <label class="inline-label"><input type="radio" name="rentMomCloth" value="その他"> その他</label>
-                        </div>
+                        <select id="rentMomCloth">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="7号">7号</option>
+                            <option value="8号">8号</option>
+                            <option value="9号">9号</option>
+                            <option value="10号">10号</option>
+                            <option value="11号">11号</option>
+                            <option value="12号">12号</option>
+                            <option value="13号">13号</option>
+                            <option value="14号">14号</option>
+                            <option value="15号">15号</option>
+                            <option value="16号">16号</option>
+                            <option value="17号">17号</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">ご年齢</span>
@@ -299,24 +297,29 @@
 
                     <div class="sub-section-title">パパ</div>
                     <div class="detail-field">
-                        <span class="sub-label">衣装番号</span>
-                        <input type="text" id="rentDadNo" placeholder="例：なし">
-                    </div>
-                    <div class="detail-field">
-                        <span class="sub-label">衣装の画像（特徴や色など）</span>
-                        <input type="text" id="rentDadImg" placeholder="例：なし">
+                        <span class="sub-label">衣装の商品番号</span>
+                        <input type="text" id="rentDadNo" placeholder="例：KC000AP1111111">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">足のサイズ</span>
-                        <input type="text" id="rentDadSize" placeholder="例：なし">
+                        <input type="text" id="rentDadSize" placeholder="例：26.5cm">
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">服のサイズ</span>
-                        <div class="inline-choice">
-                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="Mサイズ"> Mサイズ</label>
-                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="Lサイズ"> Lサイズ</label>
-                            <label class="inline-label"><input type="radio" name="rentDadCloth" value="その他"> その他/なし</label>
-                        </div>
+                        <select id="rentDadCloth">
+                            <option value="未選択">-- 選択してください --</option>
+                            <option value="7号">7号</option>
+                            <option value="8号">8号</option>
+                            <option value="9号">9号</option>
+                            <option value="10号">10号</option>
+                            <option value="11号">11号</option>
+                            <option value="12号">12号</option>
+                            <option value="13号">13号</option>
+                            <option value="14号">14号</option>
+                            <option value="15号">15号</option>
+                            <option value="16号">16号</option>
+                            <option value="17号">17号</option>
+                        </select>
                     </div>
                     <div class="detail-field">
                         <span class="sub-label">ご年齢</span>
@@ -463,45 +466,39 @@
             let rentalDetailText = '';
             if (rental === 'あり') {
                 const c1No = document.getElementById('rentChild1No').value.trim() || '未記入';
-                const c1Img = document.getElementById('rentChild1Img').value.trim() || '未記入';
                 const c1Size = document.getElementById('rentChild1Size').value.trim() || '未記入';
                 const c1PackRadio = document.querySelector('input[name="rentChild1Pack"]:checked');
                 const c1Pack = c1PackRadio ? c1PackRadio.value : '未選択';
 
                 const c2No = document.getElementById('rentChild2No').value.trim() || '未記入';
-                const c2Img = document.getElementById('rentChild2Img').value.trim() || '未記入';
                 const c2Size = document.getElementById('rentChild2Size').value.trim() || '未記入';
                 const c2PackRadio = document.querySelector('input[name="rentChild2Pack"]:checked');
                 const c2Pack = c2PackRadio ? c2PackRadio.value : '未選択';
 
                 const c3No = document.getElementById('rentChild3No').value.trim() || '未記入';
-                const c3Img = document.getElementById('rentChild3Img').value.trim() || '未記入';
                 const c3Size = document.getElementById('rentChild3Size').value.trim() || '未記入';
                 const c3PackRadio = document.querySelector('input[name="rentChild3Pack"]:checked');
                 const c3Pack = c3PackRadio ? c3PackRadio.value : '未選択';
 
                 const mNo = document.getElementById('rentMomNo').value.trim() || '未記入';
-                const mImg = document.getElementById('rentMomImg').value.trim() || '未記入';
                 const mSize = document.getElementById('rentMomSize').value.trim() || '未記入';
-                const mClothRadio = document.querySelector('input[name="rentMomCloth"]:checked');
-                const mCloth = mClothRadio ? mClothRadio.value : '未選択';
+                const mCloth = document.getElementById('rentMomCloth').value;
                 const mAge = document.getElementById('rentMomAge').value.trim() || '未記入';
                 const mCoordRadio = document.querySelector('input[name="rentMomCoord"]:checked');
                 const mCoord = mCoordRadio ? mCoordRadio.value : '未選択';
 
                 const dNo = document.getElementById('rentDadNo').value.trim() || '未記入';
-                const dImg = document.getElementById('rentDadImg').value.trim() || '未記入';
                 const dSize = document.getElementById('rentDadSize').value.trim() || '未記入';
-                const dClothRadio = document.querySelector('input[name="rentDadCloth"]:checked');
-                const dCloth = dClothRadio ? dClothRadio.value : '未選択';
+                const dCloth = document.getElementById('rentDadCloth').value;
                 const dAge = document.getElementById('rentDadAge').value.trim() || '未記入';
 
                 rentalDetailText = `\n【レンタル内訳】
-・お子様①：番号:${c1No} / 画像:${c1Img} / 足:${c1Size} / 安心P:${c1Pack}
-・お子様②：番号:${c2No} / 画像:${c2Img} / 足:${c2Size} / 安心P:${c2Pack}
-・お子様③：番号:${c3No} / 画像:${c3Img} / 足:${c3Size} / 安心P:${c3Pack}
-・ママ：番号:${mNo} / 画像:${mImg} / 足:${mSize} / 服:${mCloth} / 年齢:${mAge} / コーデ:${mCoord}
-・パパ：番号:${dNo} / 画像:${dImg} / 足:${dSize} / 服:${dCloth} / 年齢:${dAge}`;
+・お子様①：商品番号:${c1No} / 足:${c1Size} / 安心P:${c1Pack}
+・お子様②：商品番号:${c2No} / 足:${c2Size} / 安心P:${c2Pack}
+・お子様③：商品番号:${c3No} / 足:${c3Size} / 安心P:${c3Pack}
+・ママ：商品番号:${mNo} / 足:${mSize} / 服:${mCloth} / 年齢:${mAge} / コーデ:${mCoord}
+・パパ：商品番号:${dNo} / 足:${dSize} / 服:${dCloth} / 年齢:${dAge}
+※衣装のスクリーンショットは別途チャット送信`;
             }
 
             // お支度情報取得
