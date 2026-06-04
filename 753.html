@@ -36,10 +36,9 @@
         .optional-badge { background-color: #8c8c8c; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
         
         .explain-text { font-size: 13px; color: #555; background: #fdfaf6; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #a89f91; margin-bottom: 12px; line-height: 1.5; }
-        .link-area { margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.8; }
+        .link-area { margin-top: 4px; font-size: 14px; font-weight: 600; line-height: 1.8; }
         .link-area a { color: #7aa692; text-decoration: underline; display: block; margin-bottom: 4px; }
         
-        /* アラート文の文字サイズを13pxに戻し、改行に対応 */
         .alert-red-text { color: #ff4d4f; font-size: 13px; font-weight: bold; margin: 4px 0 12px 0; line-height: 1.4; }
         
         input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], select, textarea { 
@@ -140,6 +139,16 @@
                     <label class="choice-label"><input type="radio" name="plan" value="スタジオ5歳男の子 ¥60,500"> スタジオ5歳男の子 ¥60,500</label>
                     <label class="choice-label"><input type="radio" name="plan" value="スタジオ7歳女の子 ¥66,000"> スタジオ7歳女の子 ¥66,000</label>
                     <label class="choice-label"><input type="radio" name="plan" value="検討中"> 検討中</label>
+                    
+                    <!-- 主役のお子様追加オプション -->
+                    <div style="margin-top: 4px; padding-top: 12px; border-top: 1px dashed #eee;">
+                        <label class="choice-label" style="font-weight: 600;">
+                            <input type="checkbox" id="addKidOption" value="あり" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692;"> 主役のお子様追加（任意）
+                        </label>
+                        <p style="font-size: 12px; color: #666; line-height: 1.4; margin-top: 6px; padding-left: 32px;">
+                            兄弟料金 ¥5,500<br>スタジオの場合、料金が高い方のプランに+5,500円となります。
+                        </p>
+                    </div>
                 </div>
                 <div class="error-message">希望プランを選択してください。</div>
             </div>
@@ -186,20 +195,26 @@
             <div class="form-group" id="group_rental">
                 <label>衣装レンタルのご希望<span class="required-badge">必須</span></label>
                 <div class="explain-text">
-                    キモノカタログオンラインレンタルサービス。試着不可。<br>
-                    【ID】1234【PW】001でログインしてカタログをご覧いただけます。
-                    <div class="link-area">
+                    <strong>●キモノカタログ</strong>（<a href="https://kimono-c.jp/login/" target="_blank">WEBサイト</a>）<br>
+                    オンラインレンタルサービス。試着不可。<br>
+                    【ID】1234【PW】001 でログインしてカタログをご覧いただけます。<br>
+                    <div class="link-area" style="margin-bottom: 8px;">
                         <a href="https://suzu-photo.com/wp-content/uploads/2025/04/%E4%B8%83%E4%BA%94%E4%B8%89%E3%83%BB%E7%94%A3%E7%9D%80%E3%83%BB%E8%A8%AA%E5%95%8F%E7%9D%80_%E6%96%99%E9%87%91%E8%A1%A8-scaled.jpg" target="_blank">＞＞衣装レンタル料金表＜＜</a>
                     </div>
+                    <strong>●レンタル着物『いと』</strong>（<a href="https://www.ito-kimono.shop/" target="_blank">WEBサイト</a>）<br>
+                    実店舗有（試着可）。<br>
+                    直通電話: 080-3789-6903<br>
+                    <span style="font-size: 12px; color:#666;">（料金はいとさんへ直接お問い合わせください）</span>
                 </div>
                 <div class="choice-group">
-                    <label class="choice-label"><input type="radio" name="rental" value="あり" onclick="toggleRentalDetail(true)"> あり</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="オンラインレンタル" onclick="toggleRentalDetail(true)"> オンラインレンタル</label>
+                    <label class="choice-label"><input type="radio" name="rental" value="いと" onclick="toggleRentalDetail(false)"> いと</label>
                     <label class="choice-label"><input type="radio" name="rental" value="なし" onclick="toggleRentalDetail(false)"> なし</label>
                     <label class="choice-label"><input type="radio" name="rental" value="検討中" onclick="toggleRentalDetail(false)"> 検討中</label>
                 </div>
                 <div class="error-message">衣装レンタルのご希望を選択してください。</div>
 
-                <!-- 「あり」選択時のみ表示される衣装詳細入力エリア -->
+                <!-- 「オンラインレンタル」選択時のみ表示される衣装詳細入力エリア -->
                 <div class="conditional-detail-area" id="rentalDetailWrap">
                     <p class="detail-block-title">●ご希望の衣装詳細をご記入ください</p>
                     <p class="alert-red-text">※間違い防止のため、<br>衣装のスクリーンショットをチャットで送信してください。</p>
@@ -326,12 +341,6 @@
                             <option value="40代後半">40代後半</option>
                             <option value="50代前半">50代前半</option>
                             <option value="50代後半">50代後半</option>
-                            <option value="60代前半">60代前半</option>
-                            <option value="60代後半">60代後半</option>
-                            <option value="70代前半">70代前半</option>
-                            <option value="70代後半">70代後半</option>
-                            <option value="80代前半">80代前半</option>
-                            <option value="80代後半">80代後半</option>
                         </select>
                     </div>
                     <div class="detail-field">
@@ -390,12 +399,6 @@
                             <option value="40代後半">40代後半</option>
                             <option value="50代前半">50代前半</option>
                             <option value="50代後半">50代後半</option>
-                            <option value="60代前半">60代前半</option>
-                            <option value="60代後半">60代後半</option>
-                            <option value="70代前半">70代前半</option>
-                            <option value="70代後半">70代後半</option>
-                            <option value="80代前半">80代前半</option>
-                            <option value="80代後半">80代後半</option>
                         </select>
                     </div>
                     <div class="detail-field">
@@ -409,7 +412,7 @@
             </div>
 
             <div class="form-group" id="group_dressing">
-                <label>大人、子供のお支度（ヘアセット、着付けなど）のご希望<span class="required-badge">必須</span></label>
+                <label>お支度(着付、ヘアセット等)のご希望<span class="required-badge">必須</span></label>
                 <div class="explain-text">
                     ヘアメイクさんのスケジュール確認が必要になりますので、追って希望日の空き状況をお知らせ致します。
                     <div class="link-area">
@@ -520,6 +523,9 @@
             const plan = planRadio ? planRadio.value : '';
             if (!plan) { document.getElementById('group_plan').classList.add('has-error'); hasError = true; }
 
+            // 主役のお子様追加オプションチェック
+            const addKidOption = document.getElementById('addKidOption').checked ? 'あり' : 'なし';
+
             // お子様情報
             const kidsName = document.getElementById('kidsName').value.trim();
             if (!kidsName) { document.getElementById('group_kidsName').classList.add('has-error'); hasError = true; }
@@ -544,7 +550,7 @@
             if (!rental) { document.getElementById('group_rental').classList.add('has-error'); hasError = true; }
 
             let rentalDetailText = '';
-            if (rental === 'あり') {
+            if (rental === 'オンラインレンタル') {
                 const c1No = document.getElementById('rentChild1No').value.trim() || '未記入';
                 const c1Size = document.getElementById('rentChild1Size').value;
                 const c1PackRadio = document.querySelector('input[name="rentChild1Pack"]:checked');
@@ -576,7 +582,7 @@
                 const dPackRadio = document.querySelector('input[name="rentDadPack"]:checked');
                 const dPack = dPackRadio ? dPackRadio.value : '未選択';
 
-                rentalDetailText = `\n【レンタル内訳】
+                rentalDetailText = `\n【オンラインレンタル内訳】
 ・お子様①：商品番号:${c1No} / 足:${c1Size} / 安心P:${c1Pack}
 ・お子様②：商品番号:${c2No} / 足:${c2Size} / 安心P:${c2Pack}
 ・お子様③：商品番号:${c3No} / 足:${c3Size} / 安心P:${c3Pack}
@@ -620,6 +626,7 @@
 ■撮影希望日②：${date2}
 ■撮影希望日③：${date3}
 ■希望プラン：${plan}
+■主役のお子様追加：${addKidOption}
 
 ■七五三をされるお子様（名前・性別・年齢）：
 ${kidsName}
