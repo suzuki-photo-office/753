@@ -141,17 +141,53 @@
                     <label class="choice-label"><input type="radio" name="plan" value="スタジオ7歳女の子 ¥66,000"> スタジオ7歳女の子 ¥66,000</label>
                     <label class="choice-label"><input type="radio" name="plan" value="検討中"> 検討中</label>
                     
-                    <!-- 主役のお子様追加オプション -->
-                    <div style="margin-top: 4px; padding-top: 12px; border-top: 1px dashed #eee;">
-                        <label class="choice-label" style="font-weight: 600;">
-                            <input type="checkbox" id="addKidOption" value="あり" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692;"> 主役のお子様追加<span class="optional-badge">任意</span>
+                    <!-- オプション枠 -->
+                    <div style="margin-top: 4px; padding-top: 12px; border-top: 1px dashed #eee; display: flex; flex-direction: column; gap: 10px;">
+                        <span style="font-size: 14px; font-weight: 600; color: #222; display: block; margin-bottom: 2px;">オプション<span class="optional-badge">任意</span></span>
+                        
+                        <label class="choice-label" style="font-weight: normal; align-items: flex-start;">
+                            <input type="checkbox" id="addKidOption" value="あり" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692; margin-top: 1px;"> 
+                            <div>
+                                主役のお子様追加
+                                <span style="font-size: 12px; color: #666; display: block; margin-top: 2px; line-height: 1.4;">
+                                    兄弟料金 ¥5,500<br>スタジオの場合、料金が高い方のプランに+5,500円となります。
+                                </span>
+                            </div>
                         </label>
-                        <p style="font-size: 12px; color: #666; line-height: 1.4; margin-top: 6px; padding-left: 32px;">
-                            兄弟料金 ¥5,500<br>スタジオの場合、料金が高い方のプランに+5,500円となります。
-                        </p>
+                        
+                        <label class="choice-label" style="font-weight: normal;">
+                            <input type="checkbox" id="optFlower" value="あり" onchange="toggleFlowerDetail(this.checked)" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692;"> スタジオ生花撮影 ¥5,500
+                        </label>
                     </div>
                 </div>
                 <div class="error-message">希望プランを選択してください。</div>
+
+                <!-- スタジオ生花撮影選択時の詳細ボックス（複数選択チェックボックス方式） -->
+                <div class="conditional-detail-area" id="flowerDetailWrap" style="margin-top: 12px; padding: 14px; background: #fafafa; border-radius: 8px;">
+                    <p style="font-size: 14px; font-weight: 700; color: #222; margin-bottom: 6px;">●スタジオ生花撮影の詳細</p>
+                    <p style="font-size: 12px; color: #666; line-height: 1.4; margin-bottom: 12px;">
+                        お花の品種の指定はできません。<br>お好きなお色味で、市場に出ている旬のお花をご用意いたします。
+                    </p>
+                    <span class="sub-label" style="margin-top: 0; margin-bottom: 8px;">お好きな色味（複数選択可）</span>
+                    <div class="choice-group" style="gap: 10px;">
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="白"> 白</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="グリーン"> グリーン</label>
+                        <label class="choice-label" style="font-size: 14px; align-items: flex-start;">
+                            <input type="checkbox" name="flowerColor" value="ブルー" style="margin-top: 2px;"> 
+                            <div>ブルー<span style="font-size: 11px; color: #8c8c8c; display: block; margin-top: 1px;">（初夏以外はご用意が難しい場合がございます）</span></div>
+                        </label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="ピンク"> ピンク</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="紫"> 紫</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="オレンジ"> オレンジ</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="黄色"> 黄色</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="赤"> 赤</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="カラフル"> カラフル</label>
+                        <label class="choice-label" style="font-size: 14px;"><input type="checkbox" name="flowerColor" value="その他" id="flowerColorOtherCheck" onchange="toggleFlowerOther(this.checked)"> その他（記述式）</label>
+                    </div>
+                    <div id="flowerColorOtherWrap" style="display: none; margin-top: 10px;">
+                        <input type="text" id="flowerColorOtherInput" placeholder="例：パステル系、淡い水色など">
+                    </div>
+                </div>
             </div>
 
             <!-- 【グループ3】主役のお子様情報 -->
@@ -484,6 +520,16 @@
             } catch (e) { alert('プログラム実行エラー: ' + e.message); }
         });
 
+        // スタジオ生花撮影の表示・非表示切り替え
+        function toggleFlowerDetail(show) {
+            document.getElementById('flowerDetailWrap').style.display = show ? 'block' : 'none';
+        }
+
+        // 生花撮影その他自由記述の表示・非表示切り替え
+        function toggleFlowerOther(show) {
+            document.getElementById('flowerColorOtherWrap').style.display = show ? 'block' : 'none';
+        }
+
         // 衣装レンタル詳細の表示・非表示切り替え
         function toggleRentalDetail(show) {
             document.getElementById('rentalDetailWrap').style.display = show ? 'block' : 'none';
@@ -524,8 +570,30 @@
             const plan = planRadio ? planRadio.value : '';
             if (!plan) { document.getElementById('group_plan').classList.add('has-error'); hasError = true; }
 
-            // 主役のお子様追加オプションチェック
+            // オプション情報取得
             const addKidOption = document.getElementById('addKidOption').checked ? 'あり' : 'なし';
+            
+            const optFlowerChecked = document.getElementById('optFlower').checked;
+            const optFlower = optFlowerChecked ? 'あり' : 'なし';
+            
+            let flowerDetailText = '';
+            if (optFlowerChecked) {
+                const checkedColors = [];
+                const fColorChecks = document.querySelectorAll('input[name="flowerColor"]:checked');
+                fColorChecks.forEach(cb => {
+                    if (cb.value !== 'その他') {
+                        checkedColors.push(cb.value);
+                    }
+                });
+                
+                if (document.getElementById('flowerColorOtherCheck').checked) {
+                    const otherVal = document.getElementById('flowerColorOtherInput').value.trim();
+                    checkedColors.push(otherVal ? `その他(${otherVal})` : 'その他');
+                }
+                
+                const fColor = checkedColors.length > 0 ? checkedColors.join(', ') : '未選択';
+                flowerDetailText = ` (希望色味: ${fColor})`;
+            }
 
             // お子様情報
             const kidsName = document.getElementById('kidsName').value.trim();
@@ -586,7 +654,7 @@
                 rentalDetailText = `\n【オンラインレンタル内訳】
 ・お子様①：商品番号:${c1No} / 足:${c1Size} / 安心P:${c1Pack}
 ・お子様②：商品番号:${c2No} / 足:${c2Size} / 安心P:${c2Pack}
-・お子様③：商品番号:${c3No} / 足:${c3Size} / 安心P:${c3Pack}
+ smileお子様③：商品番号:${c3No} / 足:${c3Size} / 安心P:${c3Pack}
 ・ママ：商品番号:${mNo} / 足:${mSize} / 服:${mCloth} / 年代:${mAge} / 安心P:${mPack} / コーデ:${mCoord}
 ・パパ：商品番号:${dNo} / 足:${dSize} / 服:${dCloth} / 年代:${dAge} / 安心P:${dPack}
 ※衣装のスクリーンショットは別途チャット送信`;
@@ -627,7 +695,7 @@
 ■撮影希望日②：${date2}
 ■撮影希望日③：${date3}
 ■希望プラン：${plan}
-■主役のお子様追加：${addKidOption}
+■オプション：主役のお子様追加:${addKidOption} / スタジオ生花撮影:${optFlower}${flowerDetailText}
 
 ■七五三をされるお子様（名前・性別・年齢）：
 ${kidsName}
@@ -644,7 +712,7 @@ ${attendees}
 ■ご質問、ご相談など：
 ${questions}
 
-上記の内容で送信しました。日程調整後、担当者からご連絡いたします。`;
+上記の内容で送信しました。確定までしばらくお待ちください。`;
 
             liff.sendMessages([{ type: 'text', text: messageText }]).then(() => { liff.closeWindow(); }).catch((err) => { alert('送信エラーが発生しました。'); });
         }
