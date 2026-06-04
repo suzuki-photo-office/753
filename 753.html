@@ -144,7 +144,7 @@
                     <!-- 主役のお子様追加オプション -->
                     <div style="margin-top: 4px; padding-top: 12px; border-top: 1px dashed #eee;">
                         <label class="choice-label" style="font-weight: 600;">
-                            <input type="checkbox" id="addKidOption" value="あり" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692;"> 主役のお子様追加（任意）
+                            <input type="checkbox" id="addKidOption" value="あり" style="width: 20px; height: 20px; margin-right: 12px; accent-color: #7aa692;"> 主役のお子様追加<span class="optional-badge">任意</span>
                         </label>
                         <p style="font-size: 12px; color: #666; line-height: 1.4; margin-top: 6px; padding-left: 32px;">
                             兄弟料金 ¥5,500<br>スタジオの場合、料金が高い方のプランに+5,500円となります。
@@ -167,7 +167,7 @@
             </div>
 
             <div class="form-group group-separator">
-                <label for="attendees">撮影に参加される方の人数と続柄（例：両親と祖父母など）<span class="optional-badge">任意</span></label>
+                <label for="attendees">撮影に参加される方の人数<span class="optional-badge">任意</span></label>
                 <textarea id="attendees" placeholder="例：大人4人（夫婦、両家祖母）、子供1人（本人）"></textarea>
             </div>
 
@@ -633,7 +633,7 @@
 ${kidsName}
 ■主役のお子様2人目以降（名前・性別・年齢）：
 ${siblings}
-■撮影に参加される方の人数と続柄：
+■撮影に参加される方の人数：
 ${attendees}
 
 ■お参りされる神社名：${shrine}
