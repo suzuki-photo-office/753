@@ -39,7 +39,8 @@
         .link-area { margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.8; }
         .link-area a { color: #7aa692; text-decoration: underline; display: block; margin-bottom: 4px; }
         
-        .alert-red-text { color: #ff4d4f; font-size: 11px; font-weight: bold; margin: 4px 0 12px 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* アラート文の文字サイズを13pxに戻し、改行に対応 */
+        .alert-red-text { color: #ff4d4f; font-size: 13px; font-weight: bold; margin: 4px 0 12px 0; line-height: 1.4; }
         
         input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], select, textarea { 
             width: 100%; padding: 14px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 16px; background: #ffffff; color: #333; transition: all 0.2s; -webkit-appearance: none;
@@ -201,7 +202,7 @@
                 <!-- 「あり」選択時のみ表示される衣装詳細入力エリア -->
                 <div class="conditional-detail-area" id="rentalDetailWrap">
                     <p class="detail-block-title">●ご希望の衣装詳細をご記入ください</p>
-                    <p class="alert-red-text">※間違い防止のため衣装のスクリーンショットをチャットで送信してください。</p>
+                    <p class="alert-red-text">※間違い防止のため、<br>衣装のスクリーンショットをチャットで送信してください。</p>
                     
                     <div class="sub-section-title">お子様①</div>
                     <div class="detail-field">
