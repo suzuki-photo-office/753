@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>七五三フォトご予約</title>
-    <!-- LINE LIFF SDK -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -91,7 +90,6 @@
         </div>
         
         <div class="form-content">
-            <!-- 【グループ1】お客様基本情報 -->
             <div class="form-group" id="group_name">
                 <label for="name">お名前<span class="required-badge">必須</span></label>
                 <input type="text" id="name" placeholder="例：鈴木 花子">
@@ -113,7 +111,6 @@
                 <div class="error-message">住所を入力してください。</div>
             </div>
 
-            <!-- 【グループ2】撮影希望日・プラン -->
             <div class="form-group" id="group_date1">
                 <label for="date1">撮影希望日①<span class="required-badge">必須</span></label>
                 <input type="date" id="date1">
@@ -141,7 +138,6 @@
                     <label class="choice-label"><input type="radio" name="plan" value="スタジオ7歳女の子 ¥66,000"> スタジオ7歳女の子 ¥66,000</label>
                     <label class="choice-label"><input type="radio" name="plan" value="検討中"> 検討中</label>
                     
-                    <!-- オプション枠 -->
                     <div style="margin-top: 4px; padding-top: 12px; border-top: 1px dashed #eee; display: flex; flex-direction: column; gap: 10px;">
                         <span style="font-size: 14px; font-weight: 600; color: #222; display: block; margin-bottom: 2px;">オプション<span class="optional-badge">任意</span></span>
                         
@@ -162,7 +158,6 @@
                 </div>
                 <div class="error-message">希望プランを選択してください。</div>
 
-                <!-- スタジオ生花撮影選択時の詳細ボックス（複数選択チェックボックス方式） -->
                 <div class="conditional-detail-area" id="flowerDetailWrap" style="margin-top: 12px; padding: 14px; background: #fafafa; border-radius: 8px;">
                     <p style="font-size: 14px; font-weight: 700; color: #222; margin-bottom: 6px;">●スタジオ生花撮影の詳細</p>
                     <p style="font-size: 12px; color: #666; line-height: 1.4; margin-bottom: 12px;">
@@ -190,7 +185,6 @@
                 </div>
             </div>
 
-            <!-- 【グループ3】主役のお子様情報 -->
             <div class="form-group" id="group_kidsName">
                 <label for="kidsName">七五三をされるお子様のお名前、性別、年齢<span class="required-badge">必須</span></label>
                 <textarea id="kidsName" placeholder="例：鈴木 陽向（ひなた）、男の子、5歳"></textarea>
@@ -207,7 +201,6 @@
                 <textarea id="attendees" placeholder="例：大人4人（夫婦、両家祖母）、子供1人（本人）"></textarea>
             </div>
 
-            <!-- 【グループ4】参拝神社・ご祈祷時間 -->
             <div class="form-group">
                 <label for="shrine">同行撮影の方はお参りされる神社名<span class="optional-badge">任意</span></label>
                 <input type="text" id="shrine" placeholder="例：○○神社">
@@ -228,7 +221,6 @@
                 </div>
             </div>
 
-            <!-- 【グループ5】レンタル・お支度 -->
             <div class="form-group" id="group_rental">
                 <label>衣装レンタルのご希望<span class="required-badge">必須</span></label>
                 <div class="explain-text">
@@ -251,7 +243,6 @@
                 </div>
                 <div class="error-message">衣装レンタルのご希望を選択してください。</div>
 
-                <!-- 「オンラインレンタル」選択時のみ表示される衣装詳細入力エリア -->
                 <div class="conditional-detail-area" id="rentalDetailWrap">
                     <p class="detail-block-title">●ご希望の衣装詳細をご記入ください</p>
                     <p class="alert-red-text">※間違い防止のため、<br>衣装のスクリーンショットをチャットで送信してください。</p>
@@ -464,7 +455,6 @@
                 </div>
                 <div class="error-message">お支度のご希望を選択してください。</div>
 
-                <!-- 「あり」選択時のみ表示されるお支度詳細入力エリア -->
                 <div class="conditional-detail-area" id="dressingDetailWrap">
                     <p class="detail-block-title">●ご希望のお支度内容をご記入ください</p>
                     <div class="detail-field">
@@ -645,7 +635,7 @@
                 const mCoord = mCoordRadio ? mCoordRadio.value : '未選択';
 
                 const dNo = document.getElementById('rentDadNo').value.trim() || '未記入';
-                const dSize = document.getElementById('rentDadSize').value.trim() || '未記入';
+                const dSize = document.getElementById('rentDadSize').value;
                 const dCloth = document.getElementById('rentDadCloth').value;
                 const dAge = document.getElementById('rentDadAge').value;
                 const dPackRadio = document.querySelector('input[name="rentDadPack"]:checked');
